@@ -25,10 +25,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js v15
+      - name: Use Node.js 14.16.0
         uses: actions/setup-node@v1
         with:
-          node-version: v15
+          node-version: v14.16.0
       - run: npm i
       - run: npm run lint
 
