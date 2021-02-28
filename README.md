@@ -1,7 +1,7 @@
 # usage
 with this middleware you can verify the access tokens against your oidc provider with the introspection endpoint and logout your session from the oidc provider. 
 
-Also this middleware sets a `x-userinfo`-header with a few information from the introspection endpoint and encode it with base64. For more inforation which fields are set see in `src/server.js:70`
+Also this middleware sets a `x-userinfo`-header with a few information from the introspection endpoint and encode it with base64. For more information which fields are set see `src/server.js:70`
 
 # requirements
 - traefik
@@ -10,11 +10,23 @@ Also this middleware sets a `x-userinfo`-header with a few information from the 
 # installation
 ### traefik middleware
 ```yaml
-jwt-verifier:
-  forwardAuth:
-    address: "http://jwt-verifier:8080/"
-    authResponseHeadersRegex: "^X-"
-    trustForwardHeader: true
+http:
+  middlewares:
+    jwt-verifier:
+      forwardAuth:
+        address: "http://jwt-verifier:8080/"
+        authResponseHeadersRegex: "^X-"
+        trustForwardHeader: true
+```
+
+### add this line __after__ `external-auth` in your traefik router
+```diff
+http:
+  routers:
+    your-router:
+      middlewares:
+        - external-auth
++       - jwt-verifier
 ```
 
 ### docker-compose.yml example
