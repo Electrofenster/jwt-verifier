@@ -43,7 +43,7 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
 
   jwt-verifier:
-    image: docker.pkg.github.com/electrofenster/jwt-verifier/jwt-verifier:latest
+    image: docker.pkg.github.com/electrofenster/jwt-verifier/jwt-verifier:latest # or use evolutio/jwt-verifier
     environment:
       DISCOVERY_URL: https://my-oidc-provider/.well-known/openid-configuration
       CLIENT_ID: my-client-id
