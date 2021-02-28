@@ -41,9 +41,9 @@ app.all('/', async (req, res) => {
     utils.logout(client, accessToken).then(() => {
       res.clearCookie('_eas_oauth_csrf').clearCookie('_eas_oauth_session')
       res.redirect(
-          client.endSessionUrl({
-            post_logout_redirect_uri: utils.LOGOUT_REDIRECT_URL,
-          })
+        client.endSessionUrl({
+          post_logout_redirect_uri: utils.LOGOUT_REDIRECT_URL,
+        })
       )
     })
     return false
