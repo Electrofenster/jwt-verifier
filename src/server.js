@@ -41,9 +41,9 @@ app.all('/', async (req, res) => {
     utils.logout(client, accessToken).then(() => {
       res.clearCookie('_eas_oauth_csrf').clearCookie('_eas_oauth_session')
       res.redirect(
-        client.endSessionUrl({
-          post_logout_redirect_uri: utils.LOGOUT_REDIRECT_URL,
-        })
+          client.endSessionUrl({
+            post_logout_redirect_uri: utils.LOGOUT_REDIRECT_URL,
+          })
       )
     })
     return false
@@ -81,11 +81,13 @@ app.all('/', async (req, res) => {
       }
 
       const buffer = new Buffer.from(JSON.stringify(userInfo))
-      res.setHeader('x-userinfo', buffer.toString('base64')).status(200).send()
+      res.setHeader('x-userinfo', buffer.toString('base64'))
 
       logger.debug('userinfo', userInfo)
     })
   }
+
+  res.status(200).send()
 })
 
 logger.info('starting server on port 0.0.0.0:8080')
