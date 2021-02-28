@@ -21,15 +21,16 @@ jobs:
   # Run tests.
   # See also https://docs.docker.com/docker-hub/builds/automated-testing/
   lint:
-    runs-on: node:15.10.0-alpine3.10
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
-
-      - name: Run linting
-        run: |
-          npm i
-          npm run lint
+      - name: Use Node.js v15
+        uses: actions/setup-node@v1
+        with:
+          node-version: v15
+      - run: npm i
+      - run: npm run lint
 
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
