@@ -31,7 +31,7 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
 
   jwt-verifier:
-    image: __PLACEHOLDER__
+    image: docker.pkg.github.com/electrofenster/jwt-verifier/jwt-verifier:latest
     environment:
       DISCOVERY_URL: https://my-oidc-provider/.well-known/openid-configuration
       CLIENT_ID: my-client-id
