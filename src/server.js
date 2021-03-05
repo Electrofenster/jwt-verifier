@@ -13,7 +13,7 @@ const logger = utils.getLogger()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-app.all('/', async (req, res) => {
+app.get('/', async (req, res) => {
   let accessToken = null
 
   // get open-id client
