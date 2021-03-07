@@ -87,6 +87,13 @@ app.get('/', async (req, res) => {
     })
   }
 
+  // set default header from request
+  res.setHeader('x-forwarded-for', req.headers['x-forwarded-for'])
+  res.setHeader('x-forwarded-host', req.headers['x-forwarded-host'])
+  res.setHeader('x-forwarded-method', req.headers['x-forwarded-method'])
+  res.setHeader('x-forwarded-proto', req.headers['x-forwarded-proto'])
+  res.setHeader('x-forwarded-uri', req.headers['x-forwarded-uri'])
+
   res.status(200).send()
 })
 
