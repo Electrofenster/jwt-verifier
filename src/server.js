@@ -54,36 +54,47 @@ app.get('/', async (req, res) => {
     await utils.introspect(client, accessToken).then((resp) => {
       logger.debug('introspection response', resp)
 
-      const {
-        jti,
-        iss,
-        sub,
-        name,
-        given_name,
-        family_name,
-        preferred_username,
-        email,
-        email_verified,
-        username,
-      } = resp
+      const { active } = resp
 
-      const userInfo = {
-        jti,
-        iss,
-        sub,
-        name,
-        given_name,
-        family_name,
-        preferred_username,
-        email,
-        email_verified,
-        username,
+      //
+      if (!active) {
+        logger.debug('introspection failed')
+      } else {
+        const {
+          jti,
+          iss,
+          sub,
+          name,
+          given_name,
+          family_name,
+          preferred_username,
+          email,
+          email_verified,
+          username,
+        } = resp
+
+        const userInfo = {
+          jti,
+          iss,
+          sub,
+          name,
+          given_name,
+          family_name,
+          preferred_username,
+          email,
+          email_verified,
+          username,
+        }
+
+        const buffer = new Buffer.from(JSON.stringify(userInfo))
+        res.setHeader('x-userinfo', buffer.toString('base64'))
+
+        // set header from eas service
+        res.setHeader('x-access-token', req.headers['x-access-token'])
+        res.setHeader('x-id-token', req.headers['x-id-token'])
+
+        logger.debug('userinfo', userInfo)
       }
-
-      const buffer = new Buffer.from(JSON.stringify(userInfo))
-      res.setHeader('x-userinfo', buffer.toString('base64'))
-
-      logger.debug('userinfo', userInfo)
     })
   }
 
