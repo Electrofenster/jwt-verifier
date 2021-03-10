@@ -15,7 +15,8 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 
-app.get('/', async (req, res) => {
+app.get('/', async (req, res, next) => {
+  let status = 200
   let accessToken = null
 
   // get open-id client
@@ -61,9 +62,20 @@ app.get('/', async (req, res) => {
 
       //
       if (!active) {
+        // change statuscode to 301 -> moved permanently
+        status = 301
         logger.debug('introspection failed, deleting eas cookie')
+
+        // clear eas cookies
         res.clearCookie('_eas_oauth_csrf')
         res.clearCookie('_eas_oauth_session')
+
+        // build redirect uri
+        parsedUri.path = utils.PROTECTED_URL_PATH
+        const redirectUri = URI.serialize(parsedUri)
+
+        // set header for redirect
+        res.setHeader('Location', redirectUri)
       } else {
         const {
           jti,
@@ -110,7 +122,8 @@ app.get('/', async (req, res) => {
   res.setHeader('x-forwarded-proto', req.headers['x-forwarded-proto'])
   res.setHeader('x-forwarded-uri', req.headers['x-forwarded-uri'])
 
-  res.status(200).send()
+  // send response with given status
+  res.status(status).send()
 })
 
 logger.info('starting server on port 0.0.0.0:8080')

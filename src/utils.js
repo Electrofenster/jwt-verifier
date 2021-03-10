@@ -12,8 +12,15 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET || false
 const LOG_LEVEL = process.env.LOG_LEVEL || 'info'
 const LOGOUT_QUERY_PARAM = process.env.LOGOUT_QUERY_PARAM || '__jwt-logout'
 const LOGOUT_REDIRECT_URL = process.env.LOGOUT_REDIRECT_URL || ''
+const PROTECTED_URL_PATH = process.env.LOGOUT_REDIRECT_URL || '/'
 
-if (!DISCOVERY_URL || !CLIENT_ID || !CLIENT_SECRET || !LOGOUT_REDIRECT_URL) {
+if (
+  !DISCOVERY_URL ||
+  !CLIENT_ID ||
+  !CLIENT_SECRET ||
+  !LOGOUT_REDIRECT_URL ||
+  !PROTECTED_URL_PATH
+) {
   getLogger().info('ENVs not set!')
   process.exit()
 }
@@ -63,4 +70,5 @@ export default {
   logout,
   LOGOUT_QUERY_PARAM,
   LOGOUT_REDIRECT_URL,
+  PROTECTED_URL_PATH,
 }

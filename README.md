@@ -51,6 +51,7 @@ services:
       LOG_LEVEL: debug
       LOGOUT_QUERY_PARAM: __my-fancy-logout-param
       LOGOUT_REDIRECT_URL: https://google.de
+      PROTECTED_URL_PATH: /
 ```
 
 when visiting `/?__my-fancy-logout-param=true` the middleware redirects to the oidc logout endpoint which invalidates your session and starts a redirect to `https://google.de`
@@ -63,3 +64,4 @@ you need to setup these environment variables:
   - `LOG_LEVEL` -> configure the logs from this middleware available level: info, debug
   - `LOGOUT_QUERY_PARAM` -> query param to listen for logout, default `__jwt-logout`
   - `LOGOUT_REDIRECT_URL` -> redirect after successful logout, needs to start with `https://`
+  - `PROTECTED_URL_PATH` -> redirect after cookies got deleted when introspection failes for reauthentication on keycloak
