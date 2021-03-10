@@ -58,7 +58,9 @@ app.get('/', async (req, res) => {
 
       //
       if (!active) {
-        logger.debug('introspection failed')
+        logger.debug('introspection failed, deleting eas cookie')
+        res.clearCookie('_eas_oauth_csrf')
+        res.clearCookie('_eas_oauth_session')
       } else {
         const {
           jti,
