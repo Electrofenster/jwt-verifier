@@ -2,6 +2,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import URI from 'uri-js'
 import utils from './utils.js'
+import cookieParser from 'cookie-parser'
 
 // setup express app
 const app = express()
@@ -12,6 +13,7 @@ const logger = utils.getLogger()
 // apply middleware
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(cookieParser())
 
 app.get('/', async (req, res) => {
   let accessToken = null
@@ -53,6 +55,7 @@ app.get('/', async (req, res) => {
   if (accessToken && client) {
     await utils.introspect(client, accessToken).then((resp) => {
       logger.debug('introspection response', resp)
+      logger.debug('req cookies: ', req.cookies)
 
       const { active } = resp
 
