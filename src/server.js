@@ -85,12 +85,12 @@ app.get('/', async (req, res, next) => {
 
         // set defaults
         defaultFields.forEach((field) => {
-          userInfo[field] = json[field]
+          userInfo[field] = resp[field]
         })
 
         // set extra fields
         extraFields.forEach((field) => {
-          userInfo[field] = json[field]
+          userInfo[field] = resp[field]
         })
 
         const buffer = new Buffer.from(JSON.stringify(userInfo))
