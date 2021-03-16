@@ -10,6 +10,10 @@ const app = express()
 // logger
 const logger = utils.getLogger()
 
+// define userinfo default fields
+const defaultFields = ['jti', 'iss', 'sub']
+const extraFields = utils.EXTRA_USERINFO_FIELDS
+
 // apply middleware
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -77,31 +81,17 @@ app.get('/', async (req, res, next) => {
         // set header for redirect
         res.setHeader('Location', redirectUri)
       } else {
-        const {
-          jti,
-          iss,
-          sub,
-          name,
-          given_name,
-          family_name,
-          preferred_username,
-          email,
-          email_verified,
-          username,
-        } = resp
+        let userInfo = {}
 
-        const userInfo = {
-          jti,
-          iss,
-          sub,
-          name,
-          given_name,
-          family_name,
-          preferred_username,
-          email,
-          email_verified,
-          username,
-        }
+        // set defaults
+        defaultFields.forEach((field) => {
+          userInfo[field] = json[field]
+        })
+
+        // set extra fields
+        extraFields.forEach((field) => {
+          userInfo[field] = json[field]
+        })
 
         const buffer = new Buffer.from(JSON.stringify(userInfo))
         res.setHeader('x-userinfo', buffer.toString('base64'))

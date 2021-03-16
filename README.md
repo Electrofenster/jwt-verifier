@@ -52,6 +52,7 @@ services:
       LOGOUT_QUERY_PARAM: __my-fancy-logout-param
       LOGOUT_REDIRECT_URL: https://google.de
       PROTECTED_URL_PATH: /
+      EXTRA_USERINFO_FIELDS: email,family_name,email_verified
 ```
 
 when visiting `/?__my-fancy-logout-param=true` the middleware redirects to the oidc logout endpoint which invalidates your session and starts a redirect to `https://google.de`
@@ -65,3 +66,4 @@ you need to setup these environment variables:
   - `LOGOUT_QUERY_PARAM` -> query param to listen for logout, default `__jwt-logout`
   - `LOGOUT_REDIRECT_URL` -> redirect after successful logout, needs to start with `https://`
   - `PROTECTED_URL_PATH` -> redirect after cookies got deleted when introspection failes for reauthentication on keycloak
+  - `EXTRA_USERINFO_FIELDS` -> extra fields from introspection endpoint/accesstoken which should be in userinfo header
