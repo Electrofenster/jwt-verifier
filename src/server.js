@@ -97,8 +97,12 @@ app.get('/', async (req, res, next) => {
         res.setHeader('x-userinfo', buffer.toString('base64'))
 
         // set header from eas service
-        if (req.headers['x-access-token']) res.setHeader('x-access-token', req.headers['x-access-token'])
-        if (req.headers['x-id-token']) res.setHeader('x-id-token', req.headers['x-id-token'])
+        if (req.headers['x-access-token']) {
+          res.setHeader('x-access-token', req.headers['x-access-token'])
+        }
+        if (req.headers['x-id-token']) {
+          res.setHeader('x-id-token', req.headers['x-id-token'])
+        }
 
         logger.debug('userinfo', userInfo)
       }
